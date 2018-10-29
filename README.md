@@ -1,6 +1,6 @@
 # code4green
 
-This repository contains the source code and ideas about the _sleepy coders_ project _let me sleep_ at the code4green hackathon.
+This repository contains the source code and ideas about the _sleepy coders_ project _let me sleep_ at the [code4green](https://www.bmu.de/service/veranstaltungen/wettbewerbe/code4green/) hackathon.
 
 ## Links
 
