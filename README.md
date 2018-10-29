@@ -8,7 +8,7 @@ This repository contains the source code and ideas about the _sleepy coders_ pro
 
 #### R
 
-Download and install [RStudio](https://www.rstudio.com/products/rstudio/download/).
+Download and install [R](https://cran.r-project.org/bin/windows/base/) and [RStudio](https://www.rstudio.com/products/rstudio/download/).
 
 ### VM
 
