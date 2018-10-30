@@ -22,9 +22,9 @@ Download and install [VirtualBox](https://www.virtualbox.org/).
 
 [Straßenverkehrslärm](https://www.adac.de/_mmm/pdf/fi_strassenverkehrslaerm_1106_238780.pdf)
 
-Open the [Themenstadtplan of city of Dresden](https://stadtplan2.dresden.de) and select _Themen_ -> _Verkehr_
+### Traffic numbers for Dresden
 
-### Traffic noise
+Open the [Themenstadtplan of city of Dresden](https://stadtplan2.dresden.de) and select _Themen_ -> _Verkehr_
 
 ## Personal Check list
 
