@@ -22,6 +22,8 @@ The simulation will be done on a hexagonal grid. See [this article from redblobg
 
 The speed of sound (20°C, dry air) is approx. 1236 km/h (see [Wikipedia](https://de.wikipedia.org/wiki/Schallgeschwindigkeit)). This is neglectable against the speed of a car in the city (approx. 50 km/h). Thus, the time dependency of sound distribution is neglected in the simulation.
 
+See [branch c4g](https://github.com/frankdressel/games/tree/c4g/patterns), in the file app/routes/application.js for a prototype.
+
 ### Data model
 
 The data will be modeled on a hexagonal grid. See [json schema](https://json-schema.org/learn/getting-started-step-by-step.html) for the definition. Each cell has the following attributes:
@@ -49,6 +51,15 @@ The data will be modeled on a hexagonal grid. See [json schema](https://json-sch
             "type": "float",
             "description": "The noise value for the current time step."
           }
+        }
+      },
+      "street": {
+        "type": "array",
+        "description": "A sparse array which contains for directions a map of directions and probabilities to switch to.",
+        "items": {
+          "type": "array",
+          "description": "A map of direction to probability. The direction is the array index. Assume sorted keys. Values are summed probabilities."
+          "items": {"type": "float"}
         }
       }
     }
