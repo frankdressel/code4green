@@ -24,7 +24,7 @@ The speed of sound (20°C, dry air) is approx. 1236 km/h (see [Wikipedia](https:
 
 ### Data model
 
-The data will be modeled on a hexagonal grid. Each cell has the following attributes:
+The data will be modeled on a hexagonal grid. See [json schema](https://json-schema.org/learn/getting-started-step-by-step.html) for the definition. Each cell has the following attributes:
 
 <pre>
   {
