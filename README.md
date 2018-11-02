@@ -76,6 +76,14 @@ The data will be modeled on a hexagonal grid. See [json schema](https://json-sch
 
 Open the [Themenstadtplan of city of Dresden](https://stadtplan2.dresden.de) and select _Themen_ -> _Verkehr_
 
+### Noiselevel and calculations
+
+[Soundpressure](https://de.wikipedia.org/wiki/Schalldruckpegel)
+
+[Calculations](https://www.schweizer-fn.de/akustik/schallpegelaenderung/schallpegel.php)
+
+[Tables](http://www.sengpielaudio.com/TabelleDerSchallpegel.htm)
+
 ## Personal Check list
 
 - RStudio installed
