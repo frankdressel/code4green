@@ -6,19 +6,16 @@ import sqlalchemy
 neighbors = [[1, 0, -1], [1, -1, 0], [0, -1, 1], [-1, 0, 1], [-1, 1, 0], [0, 1, -1]];
 
 class Cell:
-    _x = 0
-    _y = 0
-    _z = 0
-    _is_street = 0
-    _street = {}
-    _cars = []
-    __cars = []
 
     def __init__(self, x, y, z, is_street):
         self._x = x
         self._y = y
         self._z = z
         self._is_street = is_street
+        self._street = {}
+        self._cars = []
+        self.__cars = []
+        self._light = 0
 
 
 def relative2absolute(cell, neighbor):
@@ -73,7 +70,54 @@ def car(cell):
     direction = directions[math.floor(random.random() * len(directions))]
     cell._cars.append(direction)
 
-def loop(data):
+def dist(cell1, cell2):
+    return max(
+        abs(cell1._x-cell2._x),
+        abs(cell1._y-cell2._y),
+        abs(cell1._z-cell2._z)
+    )
+
+def noise(data):
+    cells = data.values();
+    cars = []
+    for cell in cells:
+        if len(cell._cars) > 0:
+            cars.append(cell)
+
+    for cell in cells:
+        sum = 0;
+        for car in cars:
+            d = dist(cell, car);
+            if d == 0:
+                l = 90
+            else:
+                l = 90 - 16.61 * math.log10(6*d/1);
+            sum = sum + math.pow(10, 0.1 * l);
+
+        if sum > 0:
+            cell._noise = (10 * math.log10(sum))/100;
+        else:
+            cell._noise = 0
+
+def light(data, t):
+    cells = data.values();
+    if 60 <= t and 200 > t:
+        for cell in cells:
+            cell._light = 0
+        return
+
+    streets = []
+    for cell in cells:
+        if cell._is_street:
+            streets.append(cell)
+            cell._light = 1
+
+    for cell in streets:
+        for neigh in neighbors:
+            if key_raw(relative2absolute(cell, neigh)) in data and data[key_raw(relative2absolute(cell, neigh))]._is_street:
+                data[key_raw(relative2absolute(cell, neigh))]._light = max(0.5, data[key_raw(relative2absolute(cell, neigh))]._light)
+
+def loop(data, t):
     for cell in data.values():
         neighborsWithStreets = []
         for n in neighbors:
@@ -81,8 +125,19 @@ def loop(data):
                 neighborsWithStreets.append(n)
         if len(neighborsWithStreets) == 1:
             r = random.random();
-            if r <= 0.2:
-                car(cell);
+            if t <= 60:
+                if r <= t/60:
+                    car(cell);
+            elif t >= 200:
+                if r <= (240-t)/40:
+                    car(cell);
+            else:
+                car(cell)
+
+
+    maxi = 0
+    for cell in data.values():
+        maxi = max(maxi, len(cell._cars))
 
     for cell in data.values():
         cell.__cars=[]
@@ -101,6 +156,9 @@ def loop(data):
                     if r <= cell._street[direct][d]:
                         direction = d
                         break
+
+                if cell._x == 9 and cell._y == 6 and clee._z == -15:
+                    direction = 0
                 
                 key = key_raw(relative2absolute(cell, neighbors[direction]))
                 if not key in data:
@@ -111,8 +169,17 @@ def loop(data):
 
     for cell in data.values():
         cell._cars = []
-        for d in cell.__cars:
-            cell._cars = []
+        for c in cell.__cars:
+            cell._cars.append(c)
 
-for t in range(100):
-    loop(data)
+    noise(data)
+    light(data, t)
+
+df = []
+for t in range(240):
+    loop(data, t)
+    for cell in data.values():
+        df.append({'cellid': 0, 'stop': 1, 'x': cell._x, 'y': cell._y, 'z': cell._z, 'timestep': t, 'light': cell._light, 'noise': cell._noise, 'number_of_cars': len(cell._cars)})
+
+engine = sqlalchemy.create_engine('mysql+mysqldb://frank:frank@ladikas.de/c4g')
+pandas.DataFrame(df).to_sql('celldata', engine, if_exists='append', index=False)
