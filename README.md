@@ -88,3 +88,11 @@ Open the [Themenstadtplan of city of Dresden](https://stadtplan2.dresden.de) and
 
 - RStudio installed
 - VirtualBox installed (optional)
+
+
+## Sign links:
+
+GET https://isign.vapor.cloud/index.html  
+GET https://isign.vapor.cloud/index.html?dev  
+GET https://isign.vapor.cloud/status/1  
+POST https://isign.vapor.cloud/status {“id”:1, isOk: false}  
